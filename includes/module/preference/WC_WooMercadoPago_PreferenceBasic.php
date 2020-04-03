@@ -27,8 +27,22 @@ class WC_WooMercadoPago_PreferenceBasic extends WC_WooMercadoPago_PreferenceAbst
         $this->preference['auto_return'] = $this->auto_return();
 
         $internal_metadata = parent::get_internal_metadata();
-        $merge_array = array_merge($internal_metadata, $this->get_internal_metadata_basic());
-        $this->preference['metadata'] = $merge_array;
+        $internal_metadata_basic = $this->get_internal_metadata_basic();
+        if(is_array($internal_metadata) && is_array($internal_metadata_basic)) 
+        {
+            $this->preference['metadata'] = array_merge($internal_metadata, $internal_metadata_basic);
+        } 
+        else if (is_array($internal_metadata))
+        {
+            $this->preference['metadata'] = $internal_metadata;
+        } 
+        else if (is_array($internal_metadata_basic)) {
+            $this->preference['metadata'] = $internal_metadata_basic;
+        }
+        else 
+        {
+            $this->preference['metadata'] = array();
+        }
     }
 
     /**
